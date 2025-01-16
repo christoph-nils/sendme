@@ -125,6 +125,7 @@ pub struct CommonArgs {
     #[clap(short = 'v', long, action = clap::ArgAction::Count)]
     pub verbose: u8,
 
+    /// Show qr code as block art
     #[clap(short = 'q', long, action = clap::ArgAction::Count)]
     pub show_qr: u8,
 
