@@ -43,6 +43,7 @@ use iroh_blobs::{
 use rand::Rng;
 use serde::{Deserialize, Serialize};
 use walkdir::WalkDir;
+mod qr_cli;
 
 /// Send a file or directory between two machines, using blake3 verified streaming.
 ///
@@ -123,6 +124,9 @@ pub struct CommonArgs {
 
     #[clap(short = 'v', long, action = clap::ArgAction::Count)]
     pub verbose: u8,
+
+    #[clap(short = 'q', long, action = clap::ArgAction::Count)]
+    pub show_qr: u8,
 
     /// The relay URL to use as a home relay,
     ///
@@ -649,6 +653,10 @@ async fn send(args: SendArgs) -> anyhow::Result<()> {
     }
     println!("to get this data, use");
     println!("sendme receive {}", ticket);
+    if args.common.show_qr > 0 {
+        let qr_text = format!("sendme receive {}", ticket);
+        qr_cli::print_text_as_qr(qr_text.as_str());
+    }
 
     drop(temp_tag);
 
